@@ -1,77 +1,50 @@
-<div class="table-responsive" style="margin:0;">
-  <table class="table table-hover table-condensed" style="margin:0;">
-    <thead>
-      <tr style="background:#f5f5f5;">
-        <th style="width:120px;white-space:nowrap;">ID Tindakan</th>
-        <th>Nama Pemeriksaan</th>
-        <th style="width:140px;text-align:right;white-space:nowrap;">Tarif</th>
-        <th style="width:70px;text-align:center;">Pilih</th>
-      </tr>
-    </thead>
-    <tbody>
-      {if: $layanan}
-      {loop: $layanan}
-      <tr class="pilih_layanan"
-        data-kd_jenis_prw="{?=isset_or($value.kd_jenis_prw)?}"
-        data-nm_perawatan="{?=isset_or($value.nm_perawatan)?}"
-        data-biaya="{?=isset_or($value.total_byr)?}"
-        data-kat="laboratorium"
-        style="cursor:pointer;"
-        title="Klik untuk memilih: {?=isset_or($value.nm_perawatan)?}">
-        <td style="white-space:nowrap;">
-          <span class="label label-default">{?=isset_or($value.kd_jenis_prw)?}</span>
-        </td>
-        <td>
-          <div><strong>{?=isset_or($value.nm_perawatan)?}</strong></div>
-          {if: (int) isset_or($value.detail_count) > 0}
-          <div style="margin-top:4px;">
-            <span class="label label-info">{?=isset_or($value.detail_count)?} detail</span>
-          </div>
-          <ul class="lab-detail-preview">
-            {loop: $value.detail_templates as $template}
-            <li>{?=isset_or($template.Pemeriksaan)?}</li>
-            {/loop}
-            {if: (int) isset_or($value.detail_more) > 0}
-            <li class="more">+ {?=isset_or($value.detail_more)?} detail lainnya</li>
-            {/if}
-          </ul>
+<div style="padding:6px 12px;border-bottom:1px solid #e8e8e8;background:#f9f9f9;">
+  <label style="margin:0;font-weight:normal;color:#555;cursor:pointer;">
+    <input type="checkbox" id="cb_pilih_semua" style="width:15px;height:15px;vertical-align:middle;margin-right:5px;">
+    <small>Pilih Semua</small>
+  </label>
+</div>
+<div class="list-group" style="margin:0;">
+  {if: $layanan}
+  {loop: $layanan}
+  <div class="list-group-item lab-cb-item" style="padding:8px 12px;border-left:0;border-right:0;border-radius:0;">
+    <div class="media" style="margin:0;">
+      <div class="media-left" style="padding-right:10px;padding-top:2px;">
+        <input type="checkbox" class="cb_layanan"
+          data-kd_jenis_prw="{?=isset_or($value.kd_jenis_prw)?}"
+          data-nm_perawatan="{?=isset_or($value.nm_perawatan)?}"
+          data-biaya="{?=isset_or($value.total_byr)?}"
+          data-kat="laboratorium"
+          style="width:16px;height:16px;cursor:pointer;">
+      </div>
+      <div class="media-body" style="cursor:pointer;" onclick="$(this).prev().prev().find('input[type=checkbox]').trigger('click')">
+        <div>
+          <strong>{?=isset_or($value.nm_perawatan)?}</strong>
+          <span class="label label-default" style="margin-left:5px;font-size:10px;">{?=isset_or($value.kd_jenis_prw)?}</span>
+          <span class="pull-right text-muted" style="font-size:12px;font-weight:bold;">Rp {?= number_format($value.total_byr,0,',','.')?}</span>
+        </div>
+        {if: (int) isset_or($value.detail_count) > 0}
+        <ul style="margin:3px 0 0 0;padding-left:16px;color:#888;font-size:12px;list-style:disc;">
+          {loop: $value.detail_templates as $template}
+          <li>{?=isset_or($template.Pemeriksaan)?}</li>
+          {/loop}
+          {if: (int) isset_or($value.detail_more) > 0}
+          <li style="list-style:none;margin-left:-16px;color:#0b7dda;font-style:italic;">+ {?=isset_or($value.detail_more)?} item lainnya</li>
           {/if}
-        </td>
-        <td style="text-align:right;white-space:nowrap;">
-          <strong>Rp {?= number_format($value.total_byr,0,',','.')?}</strong>
-        </td>
-        <td style="text-align:center;">
-          <span class="btn btn-xs btn-primary"><i class="fa fa-plus"></i></span>
-        </td>
-      </tr>
-      {/loop}
-      {else}
-      <tr>
-        <td colspan="4" class="text-center" style="padding:20px;color:#aaa;">
-          <i class="fa fa-search fa-2x"></i><br>
-          <small>Tidak ada data pemeriksaan ditemukan</small>
-        </td>
-      </tr>
-      {/if}
-    </tbody>
-  </table>
+        </ul>
+        {/if}
+      </div>
+    </div>
+  </div>
+  {/loop}
+  {else}
+  <div class="list-group-item text-center" style="padding:30px;color:#aaa;border:0;">
+    <i class="fa fa-search fa-2x"></i><br>
+    <small>Tidak ada data pemeriksaan ditemukan</small>
+  </div>
+  {/if}
 </div>
 <style>
-  .pilih_layanan:hover { background-color: #e8f4fd !important; }
-  .pilih_layanan.selected { background-color: #d4edda !important; }
-  .lab-detail-preview {
-    margin: 6px 0 0 16px;
-    padding: 0;
-    color: #666;
-    font-size: 12px;
-  }
-  .lab-detail-preview li {
-    margin: 2px 0;
-  }
-  .lab-detail-preview li.more {
-    list-style: none;
-    margin-left: -16px;
-    color: #0b7dda;
-    font-style: italic;
-  }
+  .lab-cb-item:hover { background-color: #f0f7ff !important; }
+  .lab-cb-item:has(.cb_layanan:checked) { background-color: #e8f5e9 !important; border-left: 3px solid #4caf50 !important; }
 </style>

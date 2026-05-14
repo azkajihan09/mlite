@@ -51,24 +51,11 @@
           <div class="col-md-7">
             <div class="form-horizontal">
               <div class="form-group">
-                <label class="col-sm-3 control-label">Jenis Dipilih</label>
+                <label class="col-sm-3 control-label">Dipilih</label>
                 <div class="col-sm-9">
-                  <div class="input-group">
-                    <input type="hidden" name="kd_jenis_prw" value="">
-                    <input type="hidden" name="kat" value="">
-                    <input type="text" name="nm_perawatan" class="form-control" placeholder="— Pilih dari daftar di bawah —" value="" readonly style="background:#fffbe6;">
-                    <span class="input-group-addon" style="background:#fffbe6;"><i class="fa fa-hand-o-down"></i></span>
+                  <div id="selected_summary" style="min-height:34px;padding:6px 10px;background:#fffbe6;border:1px solid #ddd;border-radius:4px;font-size:12px;color:#888;">
+                    <span><i class="fa fa-hand-o-down"></i> Centang pemeriksaan dari daftar di bawah</span>
                   </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">Biaya</label>
-                <div class="col-sm-5">
-                  <input type="text" id="biaya" name="biaya" class="form-control text-right" placeholder="Rp. 0" readonly>
-                </div>
-                <label class="col-sm-1 control-label" style="padding-left:0;">Jml</label>
-                <div class="col-sm-3">
-                  <input type="number" id="jml_tindakan" name="jml_tindakan[]" class="form-control text-center" value="1" min="1">
                 </div>
               </div>
               <div class="form-group" id="rawat_jl_dr">
@@ -127,7 +114,7 @@
         </div>
       </div>
       <div class="panel-footer" style="padding:6px 15px;font-size:12px;color:#888;">
-        <i class="fa fa-info-circle"></i> Klik baris untuk memilih jenis pemeriksaan
+        <i class="fa fa-info-circle"></i> Centang checkbox untuk memilih, bisa pilih lebih dari satu pemeriksaan
       </div>
     </div>
   </div>

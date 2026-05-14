@@ -461,80 +461,99 @@ $(document).on('click', '#btn_reset_layanan', function() {
   });
 });
 
-// ketika baris data diklik
-$("#layanan").on("click", ".pilih_layanan", function(event){
-  var baseURL = mlite.url + '/' + mlite.admin;
-  event.preventDefault();
-
-  var kd_jenis_prw = $(this).attr("data-kd_jenis_prw");
-  var nm_perawatan = $(this).attr("data-nm_perawatan");
-  var biaya = $(this).attr("data-biaya");
-  var kat = $(this).attr("data-kat");
-
-  $('input:hidden[name=kd_jenis_prw]').val(kd_jenis_prw);
-  $('input:text[name=nm_perawatan]').val(nm_perawatan);
-  $('input:text[name=biaya]').val(biaya);
-  $('input:hidden[name=kat]').val(kat);
-
-  // highlight baris terpilih
-  $("#layanan .pilih_layanan").removeClass("selected");
-  $(this).addClass("selected");
-
-  $("#layanan").hide();
-  $('#provider').show();
-  $('#aturan_pakai').hide();
+// handler perubahan checkbox pemeriksaan lab
+$(document).on('change', '.cb_layanan', function() {
+  updateSelectedSummary();
 });
+
+// pilih semua / batal pilih semua
+$(document).on('change', '#cb_pilih_semua', function() {
+  var checked = $(this).is(':checked');
+  $('#layanan .cb_layanan').prop('checked', checked);
+  updateSelectedSummary();
+});
+
+function updateSelectedSummary() {
+  var items = [];
+  $('#layanan .cb_layanan:checked').each(function() {
+    items.push($(this).data('nm_perawatan'));
+  });
+  var $summary = $('#selected_summary');
+  if (items.length === 0) {
+    $summary.html('<span><i class="fa fa-hand-o-down"></i> Centang pemeriksaan dari daftar di bawah</span>');
+  } else {
+    var badges = items.map(function(n) {
+      return '<span class="label label-primary" style="margin:1px 3px 2px 0;display:inline-block;">' + n + '</span>';
+    }).join('');
+    $summary.html('<strong>' + items.length + ' item dipilih:</strong> ' + badges);
+  }
+}
 
 // ketika tombol simpan diklik
 $("#form_rincian").on("click", "#simpan_rincian", function(event){
   var baseURL = mlite.url + '/' + mlite.admin;
   event.preventDefault();
 
-  var no_rawat        = $('input:text[name=no_rawat]').val();
-  var kd_jenis_prw 	  = $('input:hidden[name=kd_jenis_prw]').val();
-  var provider        = $('select[name=provider]').val();
-  var kode_provider   = $('input:text[name=kode_provider]').val();
-  var tgl_perawatan   = $('input:text[name=tgl_perawatan]').val();
-  var jam_rawat       = $('input:text[name=jam_reg]').val();
-  var biaya           = $('input:text[name=biaya]').val();
-  var aturan_pakai    = $('input:text[name=aturan_pakai]').val();
-  var kat             = $('input:hidden[name=kat]').val();
-  var jml_tindakan    = $('input:text[name=jml_tindakan]').val();
-  var status          = $('input:text[name=status]').val();
-
-  var url = baseURL + '/laboratorium/savedetail?t=' + mlite.token;
-  $.post(url, {no_rawat : no_rawat,
-  kd_jenis_prw   : kd_jenis_prw,
-  provider       : provider,
-  kode_provider  : kode_provider,
-  tgl_perawatan  : tgl_perawatan,
-  jam_rawat      : jam_rawat,
-  biaya          : biaya,
-  aturan_pakai   : aturan_pakai,
-  kat            : kat,
-  jml_tindakan   : jml_tindakan,
-  status         : status
-  }, function(data) {
-    // tampilkan data
-    $("#display").hide();
-    var url = baseURL + '/laboratorium/rincian?t=' + mlite.token;
-    $.post(url, {no_rawat : no_rawat, status: status
-    }, function(data) {
-      // tampilkan data
-      $("#rincian").html(data).show();
+  var checkedItems = [];
+  $('#layanan .cb_layanan:checked').each(function() {
+    checkedItems.push({
+      kd_jenis_prw: $(this).data('kd_jenis_prw'),
+      biaya:        $(this).data('biaya'),
+      kat:          $(this).data('kat')
     });
-    $('input:hidden[name=kd_jenis_prw]').val("");
-    $('input:text[name=nm_perawatan]').val("");
-    $('input:hidden[name=kat]').val("");
-    $('input:text[name=biaya]').val("");
-    $('input:text[name=nama_provider]').val("");
-    $('input:text[name=kode_provider]').val("");
-    $('input:text[name=jml_tindakan]').val("");
-    $('#notif').html("<div class=\"alert alert-success alert-dismissible fade in\" role=\"alert\" style=\"border-radius:0px;margin-top:-15px;\">"+
-    "Data pasien telah disimpan!"+
-    "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">&times;</button>"+
-    "</div>").show();
   });
+
+  if (checkedItems.length === 0) {
+    bootbox.alert('Belum ada pemeriksaan yang dipilih. Silahkan centang pemeriksaan terlebih dahulu!');
+    return;
+  }
+
+  var no_rawat      = $('input:text[name=no_rawat]').val();
+  var kode_provider = $('input:text[name=kode_provider]').val();
+  var tgl_perawatan = $('input:text[name=tgl_perawatan]').val();
+  var jam_rawat     = $('input:text[name=jam_reg]').val();
+  var status        = $('input:text[name=status]').val();
+  var url           = baseURL + '/laboratorium/savedetail?t=' + mlite.token;
+  var saveCount     = 0;
+
+  function saveNext(i) {
+    if (i >= checkedItems.length) {
+      // semua item tersimpan, refresh rincian
+      $("#display").hide();
+      var urlRincian = baseURL + '/laboratorium/rincian?t=' + mlite.token;
+      $.post(urlRincian, {no_rawat: no_rawat, status: status}, function(data) {
+        $("#rincian").html(data).show();
+      });
+      // reset semua checkbox
+      $('#layanan .cb_layanan').prop('checked', false);
+      $('#cb_pilih_semua').prop('checked', false);
+      updateSelectedSummary();
+      $('input:text[name=nama_provider]').val('');
+      $('input:text[name=kode_provider]').val('');
+      $('#notif').html('<div class="alert alert-success alert-dismissible fade in" role="alert" style="border-radius:0px;margin-top:-15px;">' +
+        saveCount + ' data pemeriksaan telah disimpan!' +
+        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>' +
+        '</div>').show();
+      return;
+    }
+    var item = checkedItems[i];
+    $.post(url, {
+      no_rawat:     no_rawat,
+      kd_jenis_prw: item.kd_jenis_prw,
+      kode_provider: kode_provider,
+      tgl_perawatan: tgl_perawatan,
+      jam_rawat:    jam_rawat,
+      biaya:        item.biaya,
+      kat:          item.kat,
+      jml_tindakan: 1,
+      status:       status
+    }, function() {
+      saveCount++;
+      saveNext(i + 1);
+    });
+  }
+
+  saveNext(0);
 });
 
 // ketika tombol hapus ditekan

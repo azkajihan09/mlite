@@ -21,7 +21,22 @@
         <td style="white-space:nowrap;">
           <span class="label label-default">{?=isset_or($value.kd_jenis_prw)?}</span>
         </td>
-        <td>{?=isset_or($value.nm_perawatan)?}</td>
+        <td>
+          <div><strong>{?=isset_or($value.nm_perawatan)?}</strong></div>
+          {if: (int) isset_or($value.detail_count) > 0}
+          <div style="margin-top:4px;">
+            <span class="label label-info">{?=isset_or($value.detail_count)?} detail</span>
+          </div>
+          <ul class="lab-detail-preview">
+            {loop: $value.detail_templates as $template}
+            <li>{?=isset_or($template.Pemeriksaan)?}</li>
+            {/loop}
+            {if: (int) isset_or($value.detail_more) > 0}
+            <li class="more">+ {?=isset_or($value.detail_more)?} detail lainnya</li>
+            {/if}
+          </ul>
+          {/if}
+        </td>
         <td style="text-align:right;white-space:nowrap;">
           <strong>Rp {?= number_format($value.total_byr,0,',','.')?}</strong>
         </td>
@@ -44,4 +59,19 @@
 <style>
   .pilih_layanan:hover { background-color: #e8f4fd !important; }
   .pilih_layanan.selected { background-color: #d4edda !important; }
+  .lab-detail-preview {
+    margin: 6px 0 0 16px;
+    padding: 0;
+    color: #666;
+    font-size: 12px;
+  }
+  .lab-detail-preview li {
+    margin: 2px 0;
+  }
+  .lab-detail-preview li.more {
+    list-style: none;
+    margin-left: -16px;
+    color: #0b7dda;
+    font-style: italic;
+  }
 </style>

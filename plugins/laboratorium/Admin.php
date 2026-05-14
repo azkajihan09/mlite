@@ -1620,6 +1620,20 @@ class Admin extends AdminModule
       $query = $query->like('nm_perawatan', '%' . $keyword . '%');
     }
     $layanan = $query->asc('nm_perawatan')->toArray();
+
+    // Add detail template preview so users can quickly see examination breakdown.
+    foreach ($layanan as &$row) {
+      $detailTemplates = $this->db('template_laboratorium')
+        ->where('kd_jenis_prw', $row['kd_jenis_prw'])
+        ->asc('urut')
+        ->toArray();
+
+      $row['detail_count'] = count($detailTemplates);
+      $row['detail_templates'] = array_slice($detailTemplates, 0, 5);
+      $row['detail_more'] = max(0, $row['detail_count'] - count($row['detail_templates']));
+    }
+    unset($row);
+
     echo $this->draw('layanan.html', ['layanan' => htmlspecialchars_array($layanan)]);
     exit();
   }

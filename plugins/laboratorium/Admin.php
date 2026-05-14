@@ -653,7 +653,7 @@ class Admin extends AdminModule
     $status_periksa = '';
     $status_bayar = '';
     $status_pulang = '';
-    $type = htmlspecialchars(isset_or($_POST['status']), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $type = htmlspecialchars(isset_or($_POST['status']) ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
     if (isset($_POST['periode_rawat_jalan'])) {
       $tgl_kunjungan = $_POST['periode_rawat_jalan'];
@@ -1614,11 +1614,12 @@ class Admin extends AdminModule
 
   public function anyLayananLab()
   {
-    $layanan = $this->db('jns_perawatan_lab')
-      ->where('status', '1')
-      ->like('nm_perawatan', '%' . htmlspecialchars($_POST['layanan'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '%')
-      ->limit(10)
-      ->toArray();
+    $keyword = htmlspecialchars($_POST['layanan'] ?? '', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    $query = $this->db('jns_perawatan_lab')->where('status', '1');
+    if ($keyword !== '') {
+      $query = $query->like('nm_perawatan', '%' . $keyword . '%');
+    }
+    $layanan = $query->asc('nm_perawatan')->toArray();
     echo $this->draw('layanan.html', ['layanan' => htmlspecialchars_array($layanan)]);
     exit();
   }

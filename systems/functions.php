@@ -76,7 +76,7 @@ function htmlentities_array(array $array)
         if (is_array($value)) {
             $array[$key] = htmlentities_array($value);
         } else {
-            $array[$key] = htmlentities($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            $array[$key] = htmlentities((string)($value ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8');
         }
     }
 

@@ -441,6 +441,26 @@ $('input:text[name=layanan]').on('input',function(e){
 });
 // end pencarian
 
+// search realtime pada daftar jenis pemeriksaan (delegated - elemen dibuat dinamis)
+$(document).on('input', '#cari_layanan', function() {
+  var baseURL = mlite.url + '/' + mlite.admin;
+  var url = baseURL + '/laboratorium/layananlab?t=' + mlite.token;
+  var keyword = $(this).val();
+  $.post(url, { layanan: keyword }, function(data) {
+    $('#layanan').html(data);
+  });
+});
+
+// tombol reset pencarian jenis pemeriksaan
+$(document).on('click', '#btn_reset_layanan', function() {
+  var baseURL = mlite.url + '/' + mlite.admin;
+  var url = baseURL + '/laboratorium/layananlab?t=' + mlite.token;
+  $('#cari_layanan').val('');
+  $.post(url, { layanan: '' }, function(data) {
+    $('#layanan').html(data);
+  });
+});
+
 // ketika baris data diklik
 $("#layanan").on("click", ".pilih_layanan", function(event){
   var baseURL = mlite.url + '/' + mlite.admin;
@@ -455,6 +475,10 @@ $("#layanan").on("click", ".pilih_layanan", function(event){
   $('input:text[name=nm_perawatan]').val(nm_perawatan);
   $('input:text[name=biaya]').val(biaya);
   $('input:hidden[name=kat]').val(kat);
+
+  // highlight baris terpilih
+  $("#layanan .pilih_layanan").removeClass("selected");
+  $(this).addClass("selected");
 
   $("#layanan").hide();
   $('#provider').show();

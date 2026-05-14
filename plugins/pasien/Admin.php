@@ -214,13 +214,13 @@ class Admin extends AdminModule
         'agama' => htmlspecialchars_array($agama),
         'pnd' => htmlspecialchars_array($pnd),
         'keluarga' => htmlspecialchars_array($keluarga),
-        'no_rkm_medis_baru' => htmlspecialchars($this->core->setNoRM(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
-        'waapitoken' => htmlspecialchars($this->settings->get('wagateway.token'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
-        'waapiphonenumber' => htmlspecialchars($this->settings->get('wagateway.phonenumber'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
-        'admin_mode' => htmlspecialchars($this->settings->get('settings.admin_mode'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+        'no_rkm_medis_baru' => htmlspecialchars((string)($this->core->setNoRM() ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+        'waapitoken' => htmlspecialchars((string)($this->settings->get('wagateway.token') ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+        'waapiphonenumber' => htmlspecialchars((string)($this->settings->get('wagateway.phonenumber') ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+        'admin_mode' => htmlspecialchars((string)($this->settings->get('settings.admin_mode') ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
         'urlUploadPhoto' => url([ADMIN, 'pasien', 'uploadphoto', htmlspecialchars($_POST['no_rkm_medis'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')]),
         'cek_pcare' => htmlspecialchars_array($cek_pcare ?: []),
-        'usernamePcare' => htmlspecialchars($usernamePcare, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+        'usernamePcare' => htmlspecialchars((string)($usernamePcare ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'),
         'mlite_crud_permissions' => htmlspecialchars_array($this->core->loadCrudPermissions('pasien'))
       ]);
     } else {
@@ -408,7 +408,7 @@ class Admin extends AdminModule
         echo json_encode(htmlspecialchars_array($data));
       } else {
         $data['status'] = 'error';
-        $data['msg'] = htmlspecialchars($query->errorInfo()['2'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        $data['msg'] = htmlspecialchars((string)($query->errorInfo()['2'] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         echo json_encode(htmlspecialchars_array($data));
       }
 
@@ -1364,7 +1364,7 @@ class Admin extends AdminModule
           $output = '';
           if (count($rows)) {
             foreach ($rows as $row) {
-              $output .= '<li class="list-group-item link-class">' . htmlspecialchars($row["kd_prop"]) . ': ' . htmlspecialchars($row["nm_prop"]) . '</li>';
+              $output .= '<li class="list-group-item link-class">' . htmlspecialchars((string)($row["kd_prop"] ?? ''), ENT_QUOTES, 'UTF-8') . ': ' . htmlspecialchars((string)($row["nm_prop"] ?? ''), ENT_QUOTES, 'UTF-8') . '</li>';
             }
           }
           echo $output;
@@ -1378,7 +1378,7 @@ class Admin extends AdminModule
           $output = '';
           if (count($rows)) {
             foreach ($rows as $row) {
-              $output .= '<li class="list-group-item link-class">' . htmlspecialchars($row["kd_kab"]) . ': ' . htmlspecialchars($row["nm_kab"]) . '</li>';
+              $output .= '<li class="list-group-item link-class">' . htmlspecialchars((string)($row["kd_kab"] ?? ''), ENT_QUOTES, 'UTF-8') . ': ' . htmlspecialchars((string)($row["nm_kab"] ?? ''), ENT_QUOTES, 'UTF-8') . '</li>';
             }
           }
           echo $output;
@@ -1392,7 +1392,7 @@ class Admin extends AdminModule
           $output = '';
           if (count($rows)) {
             foreach ($rows as $row) {
-              $output .= '<li class="list-group-item link-class">' . htmlspecialchars($row["kd_kec"]) . ': ' . htmlspecialchars($row["nm_kec"]) . '</li>';
+              $output .= '<li class="list-group-item link-class">' . htmlspecialchars((string)($row["kd_kec"] ?? ''), ENT_QUOTES, 'UTF-8') . ': ' . htmlspecialchars((string)($row["nm_kec"] ?? ''), ENT_QUOTES, 'UTF-8') . '</li>';
             }
           }
           echo $output;
@@ -1406,7 +1406,7 @@ class Admin extends AdminModule
           $output = '';
           if (count($rows)) {
             foreach ($rows as $row) {
-              $output .= '<li class="list-group-item link-class">' . htmlspecialchars($row["kd_kel"]) . ': ' . htmlspecialchars($row["nm_kel"]) . '</li>';
+              $output .= '<li class="list-group-item link-class">' . htmlspecialchars((string)($row["kd_kel"] ?? ''), ENT_QUOTES, 'UTF-8') . ': ' . htmlspecialchars((string)($row["nm_kel"] ?? ''), ENT_QUOTES, 'UTF-8') . '</li>';
             }
           }
           echo $output;

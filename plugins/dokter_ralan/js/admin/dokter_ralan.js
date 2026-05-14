@@ -31,6 +31,47 @@ $("#display").on("click",".riwayat_perawatan", function(event){
   window.open(baseURL + '/pasien/riwayatperawatan/' + no_rkm_medis + '?t=' + mlite.token);
 });
 
+// Handler untuk auto-fill form ketika klik link pasien dengan data attributes
+$("#display").on("click", "a[data-no_rkm_medis][data-nm_pasien]", function(event){
+  var href = $(this).attr("href");
+  // Jika href adalah anchor (dimulai dengan #), proses auto-fill
+  if(href && href.startsWith("#")) {
+    event.preventDefault();
+    
+    var no_rkm_medis = $(this).attr("data-no_rkm_medis");
+    var nm_pasien = $(this).attr("data-nm_pasien");
+    var no_rawat = $(this).attr("data-no_rawat");
+    var umur = $(this).attr("data-umur");
+    
+    // Isi form fields
+    $('input:text[name=no_rkm_medis]').val(no_rkm_medis);
+    $('input:text[name=nm_pasien]').val(nm_pasien);
+    $('input:text[name=no_rawat]').val(no_rawat);
+    
+    // Show form_rincian if clicking layanan_obat link
+    if(href === "#layanan_obat") {
+      $("#form_rincian").show();
+      $("#form_soap").hide();
+      $("#display").hide();
+      // Focus ke input pertama (tgl_perawatan)
+      $('input:text[name=tgl_perawatan]').first().focus();
+    }
+    // Show form_soap if clicking #soap link
+    else if(href === "#soap") {
+      var baseURL = mlite.url + '/' + mlite.admin;
+      $("#form_soap").hide();
+      $("#form_rincian").hide();
+      $("#display").hide();
+      
+      // Load SOAPIE form
+      var url = baseURL + '/dokter_ralan/soap?t=' + mlite.token;
+      $.post(url, {no_rawat : no_rawat}, function(data) {
+        $("#soap").html(data).show();
+      });
+    }
+  }
+});
+
 $('#manage').on('click', '#submit_periode_rawat_jalan', function(event){
   var baseURL = mlite.url + '/' + mlite.admin;
   event.preventDefault();

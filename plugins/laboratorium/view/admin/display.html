@@ -132,6 +132,13 @@
       $("#form").hide();
       $("#notif").hide();
       $("#rincian").html(data).show();
+
+      // load daftar jenis pemeriksaan otomatis
+      var urlLayanan = baseURL + '/laboratorium/layananlab?t=' + mlite.token;
+      $('#layanan').html('<div class="text-center" style="padding:20px;color:#aaa;"><i class="fa fa-spinner fa-spin fa-2x"></i><br>Memuat data pemeriksaan...</div>');
+      $.post(urlLayanan, { layanan: '' }, function(layananData) {
+        $('#layanan').html(layananData);
+      });
     });
     {/if}
   });

@@ -41,17 +41,15 @@
         height: 100%;
     }
     body:before {
-        content: "";
-        position: absolute;
-        background: url('{?=url()?}/{$mlite.wallpaper}');
-        background-size: cover;
-        z-index: -1; /* Keep the background behind the content */
-        height: 20%; width: 20%; /* Using Glen Maddern's trick /via @mente */
-
-        /* don't forget to use the prefixes you need */
-        transform: scale(5);
-        transform-origin: top left;
-        filter: blur(2px);
+      content: "";
+      position: absolute;
+      background: url('{?=url()?}/themes/admin/img/klink.jpg');
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
+      height: 100%; width: 100%;
+      top: 0; left: 0;
+      filter: blur(2px) brightness(0.85);
     }
     </style>
 </head>
@@ -60,8 +58,12 @@
 
 	<section id="login">
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <img src="{?=url()?}/{$mlite.logo}" alt="logo"> <h2>m<span>LITE</span></h2>
+            <div class="panel-heading" style="text-align:center; background: rgba(255,255,255,0.7); border-radius: 12px 12px 0 0; padding-top: 30px;">
+                <img src="{?=url()?}/themes/admin/img/Klinik Rozan.png" alt="Logo Klinik Rozan" style="max-width:110px; margin-bottom:10px;">
+                <h2 style="font-weight:bold; color:#007b8a; margin-bottom:6px;">KLINIK ROZAN</h2>
+                <div style="font-size:1.1em; color:#333; margin-bottom:10px;">
+                  Jalan Mataratii RT 03 RW 04<br>Kel. Batumandi, Kec. Batumandi, Kab. Balangan
+                </div>
             </div>
             <div class="panel-body">
         		<form action="{$_SERVER['REQUEST_URI']}" method="POST">

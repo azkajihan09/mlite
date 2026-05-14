@@ -173,7 +173,7 @@
 
 <body>
 
-    <div id="wrapper">
+    <div id="wrapper" style="position:relative; min-height:100vh; background: url('{?=url()?}/themes/admin/img/klink.jpg') no-repeat center center fixed; background-size:cover;">
 
         <div id="navbar-wrapper">
             <nav class="navbar navbar-inverse mobile-fixed-top hidden-lg hidden-md" style="z-index:1000;">
@@ -195,7 +195,7 @@
             <div id="navbar" class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img src="{?=url()?}/favicon.png" height="20px"></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu</a>
                   <ul class="dropdown-menu">
                     <li><a href="#" data-toggle="modal" data-target="#tentangModal"> Tentang</a></li>
                     <li><a href="{?=url([ADMIN,'dashboard', 'menu'])?}" data-toggle="modal" data-target="#menuModal"> Menu</a></li>
@@ -452,7 +452,16 @@
     		{/if}
 
         {if: $module.name == 'Dashboard'}
-          {$module.content}
+        <!-- Custom Klinik Rozan Branding -->
+        <div style="position: absolute; left: 40px; bottom: 40px; z-index: 10; background: rgba(255,255,255,0.7); border-radius: 12px; padding: 24px 32px 18px 32px; box-shadow:0 2px 12px rgba(0,0,0,0.08); max-width: 420px;">
+            <img src="{?=url()?}/themes/admin/img/Klinik Rozan.png" alt="Logo Klinik Rozan" style="max-width:90px; margin-bottom:10px; display:block;">
+            <h2 style="font-weight:bold; color:#007b8a; margin-bottom:6px; margin-top:0;">KLINIK ROZAN</h2>
+            <div style="font-size:1.1em; color:#333; margin-bottom:0;">
+                Jalan Mataratii RT 03 RW 04<br>Kel. Batumandi, Kec. Batumandi, Kab. Balangan
+            </div>
+        </div>
+        <!-- End Custom Klinik Rozan Branding -->
+        {$module.content}
         {else}
         <section id="content-wrapper">
             <div class="container-fluid">
@@ -551,7 +560,7 @@
                   <div class="text-center">
                     <img src="{?=url()?}/themes/admin/img/logo.png" width="50px" alt="">
                     <h4>
-                      mLITE
+                      Admin Dashboard Klink Rozan
                       <div class="">
                         <small>
                           {$mlite.version}

@@ -70,10 +70,11 @@
                       <th>Telepon</th>
                       <th>Tgl. Daftar</th>
                       <th>Email</th>
+                      <th>Status Kunjungan Terakhir<br><small>(dari kunjungan terakhir pasien)</small></th>
                     </tr>
                   </thead>
-                  <tbody id="tableBody">
-                      <tr><td colspan="10" class="text-center">Memuat data...</td></tr>
+                    <tbody id="tableBody">
+                      <tr><td colspan="11" class="text-center">Memuat data...</td></tr>
                   </tbody>
                 </table>
             </div>
@@ -208,6 +209,7 @@
                       rows += '<td ' + editClass + ' data-no_rkm_medis="' + item.no_rkm_medis + '">' + item.no_tlp + '</td>';
                       rows += '<td ' + editClass + ' data-no_rkm_medis="' + item.no_rkm_medis + '">' + item.tgl_daftar + '</td>';
                       rows += '<td ' + editClass + ' data-no_rkm_medis="' + item.no_rkm_medis + '">' + item.email + '</td>';
+                      rows += '<td>' + (item.status_terakhir || '-') + '</td>';
                       
                       rows += '</tr>';
                   });

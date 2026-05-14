@@ -37,6 +37,16 @@ class Admin extends AdminModule
     } else {
       $pasien = $result['data'];
       $meta = $result['meta'];
+      // Tambahkan status kunjungan terakhir
+      foreach ($pasien as &$row) {
+        $last_visit = $this->db('reg_periksa')
+          ->where('no_rkm_medis', $row['no_rkm_medis'])
+          ->desc('tgl_registrasi')
+          ->limit(1)
+          ->oneArray();
+        $row['status_terakhir'] = $last_visit ? $last_visit['stts'] : '-';
+      }
+      unset($row);
     }
 
     $halaman = $meta['page'];

@@ -8,6 +8,124 @@ class Admin extends AdminModule
   private $_uploads = WEBAPPS_PATH . '/berkasrawat/pages/upload';
   protected $assign = [];
 
+  /**
+   * Detect source table and columns for last visit status using DB schema.
+   */
+  private function detectLastVisitStatusSource()
+  {
+    $pdo = $this->db()->pdo();
+    $sql = "
+      SELECT
+        table_name,
+        MAX(CASE WHEN column_name = 'no_rkm_medis' THEN 1 ELSE 0 END) AS has_rm,
+        MAX(CASE WHEN column_name IN ('stts', 'status', 'status_lanjut', 'status_bayar') THEN 1 ELSE 0 END) AS has_status,
+        MAX(CASE WHEN column_name IN ('tgl_registrasi', 'tgl_periksa', 'tgl', 'tanggal', 'created_at', 'tgl_daftar') THEN 1 ELSE 0 END) AS has_date,
+        MAX(CASE WHEN column_name = 'stts' THEN 1 ELSE 0 END) AS has_stts,
+        MAX(CASE WHEN column_name = 'tgl_registrasi' THEN 1 ELSE 0 END) AS has_tgl_reg
+      FROM information_schema.columns
+      WHERE table_schema = DATABASE()
+        AND column_name IN (
+          'no_rkm_medis',
+          'stts',
+          'status',
+          'status_lanjut',
+          'status_bayar',
+          'tgl_registrasi',
+          'tgl_periksa',
+          'tgl',
+          'tanggal',
+          'created_at',
+          'tgl_daftar',
+          'jam_reg'
+        )
+      GROUP BY table_name
+      HAVING has_rm = 1 AND has_status = 1 AND has_date = 1
+      ORDER BY
+        (table_name = 'reg_periksa') DESC,
+        has_stts DESC,
+        has_tgl_reg DESC,
+        table_name ASC
+      LIMIT 1
+    ";
+
+    $row = $pdo->query($sql)->fetch(\PDO::FETCH_ASSOC);
+    if (!$row || empty($row['table_name'])) {
+      return null;
+    }
+
+    $table = $row['table_name'];
+    $colsStmt = $pdo->prepare("SELECT column_name FROM information_schema.columns WHERE table_schema = DATABASE() AND table_name = ?");
+    $colsStmt->execute([$table]);
+    $cols = $colsStmt->fetchAll(\PDO::FETCH_COLUMN);
+
+    $statusCandidates = ['stts', 'status', 'status_lanjut', 'status_bayar'];
+    $dateCandidates = ['tgl_registrasi', 'tgl_periksa', 'tgl', 'tanggal', 'created_at', 'tgl_daftar'];
+
+    $statusColumn = null;
+    foreach ($statusCandidates as $c) {
+      if (in_array($c, $cols, true)) {
+        $statusColumn = $c;
+        break;
+      }
+    }
+
+    $dateColumn = null;
+    foreach ($dateCandidates as $c) {
+      if (in_array($c, $cols, true)) {
+        $dateColumn = $c;
+        break;
+      }
+    }
+
+    if (!$statusColumn || !$dateColumn) {
+      return null;
+    }
+
+    return [
+      'table' => $table,
+      'status_column' => $statusColumn,
+      'date_column' => $dateColumn,
+      'time_column' => in_array('jam_reg', $cols, true) ? 'jam_reg' : null,
+    ];
+  }
+
+  private function quoteIdentifier($name)
+  {
+    if (!preg_match('/^[A-Za-z0-9_]+$/', (string) $name)) {
+      return null;
+    }
+    return '`' . $name . '`';
+  }
+
+  private function getLastVisitStatusByNoRM($noRkmMedis, array $source)
+  {
+    $table = $this->quoteIdentifier($source['table'] ?? '');
+    $statusColumn = $this->quoteIdentifier($source['status_column'] ?? '');
+    $dateColumn = $this->quoteIdentifier($source['date_column'] ?? '');
+    $timeColumn = !empty($source['time_column']) ? $this->quoteIdentifier($source['time_column']) : null;
+
+    if (!$table || !$statusColumn || !$dateColumn) {
+      return '-';
+    }
+
+    $pdo = $this->db()->pdo();
+    if ($timeColumn) {
+      $sql = "SELECT {$statusColumn} AS status_terakhir FROM {$table} WHERE no_rkm_medis = ? ORDER BY {$dateColumn} DESC, {$timeColumn} DESC LIMIT 1";
+    } else {
+      $sql = "SELECT {$statusColumn} AS status_terakhir FROM {$table} WHERE no_rkm_medis = ? ORDER BY {$dateColumn} DESC LIMIT 1";
+    }
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$noRkmMedis]);
+    $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+    if (!$row || !isset($row['status_terakhir']) || $row['status_terakhir'] === '' || $row['status_terakhir'] === null) {
+      return '-';
+    }
+
+    return $row['status_terakhir'];
+  }
+
   public function navigation()
   {
     return [
@@ -1563,7 +1681,14 @@ class Admin extends AdminModule
     $cek_vclaim = $this->db('mlite_modules')->where('dir', 'vclaim')->oneArray();
     $cek_pcare = $this->db('mlite_modules')->where('dir', 'pcare')->oneArray();
 
+    $statusSource = $this->detectLastVisitStatusSource();
+
     foreach ($rows as $row) {
+      $row['status_terakhir'] = '-';
+      if ($statusSource && !empty($row['no_rkm_medis'])) {
+        $row['status_terakhir'] = $this->getLastVisitStatusByNoRM($row['no_rkm_medis'], $statusSource);
+      }
+
       // Add extra URLs
       if (!isset($_SERVER['HTTP_X_API_KEY'])) {
         $row['cekbynokartu'] = url([ADMIN, 'pasien', 'vclaim_bynokartu', $row['no_peserta'], date('Y-m-d')]);

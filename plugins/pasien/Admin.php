@@ -9,48 +9,78 @@ class Admin extends AdminModule
   protected $assign = [];
 
   /**
-   * Get last visit status with badge HTML
+   * Get last visit destination & status with badge HTML
    */
   private function getLastVisitStatusByNoRM($noRkmMedis)
   {
-    $last_visit = $this->db('reg_periksa')
-      ->select(['stts', 'status_bayar', 'tgl_registrasi'])
-      ->where('no_rkm_medis', $noRkmMedis)
-      ->desc('tgl_registrasi')
-      ->desc('jam_reg')
-      ->limit(1)
+    // Ambil kunjungan terakhir dengan nama poli
+    $last_visit = $this->db()->pdo()->prepare(
+      "SELECT r.stts, r.status_bayar, r.tgl_registrasi, r.status_lanjut, r.no_rawat,
+              p.nm_poli
+       FROM reg_periksa r
+       LEFT JOIN poliklinik p ON p.kd_poli = r.kd_poli
+       WHERE r.no_rkm_medis = ?
+       ORDER BY r.tgl_registrasi DESC, r.jam_reg DESC
+       LIMIT 1"
+    );
+    $last_visit->execute([$noRkmMedis]);
+    $visit = $last_visit->fetch(\PDO::FETCH_ASSOC);
+
+    if (!$visit) {
+      return '<span class="label label-default">Belum pernah berkunjung</span>';
+    }
+
+    $stts        = $visit['stts'] ?? '';
+    $status_bayar = $visit['status_bayar'] ?? '';
+    $tgl         = $visit['tgl_registrasi'] ?? '';
+    $lanjut      = strtolower(trim($visit['status_lanjut'] ?? ''));
+    $nm_poli     = $visit['nm_poli'] ?? '-';
+    $no_rawat    = $visit['no_rawat'] ?? '';
+
+    // --- Tentukan badge "KEMANA" ---
+    $dest_badge = '';
+
+    // Cek rawat inap aktif
+    $ranap = $this->db('kamar_inap')
+      ->where('no_rawat', $no_rawat)
+      ->where('stts_pulang', '-')
       ->oneArray();
 
-    if (!$last_visit) {
-      return '-';
+    if ($ranap) {
+      $dest_badge = '<span class="label label-info" title="Rawat Inap"><i class="fa fa-bed"></i> Rawat Inap</span>';
+    } elseif (stripos($nm_poli, 'IGD') !== false || stripos($nm_poli, 'UGD') !== false || $lanjut === 'igd') {
+      $dest_badge = '<span class="label label-danger"><i class="fa fa-ambulance"></i> IGD</span>';
+    } elseif ($lanjut === 'ranap') {
+      $dest_badge = '<span class="label label-info"><i class="fa fa-bed"></i> Rawat Inap</span>';
+    } else {
+      $dest_badge = '<span class="label label-primary" title="' . htmlspecialchars($nm_poli) . '"><i class="fa fa-stethoscope"></i> ' . htmlspecialchars($nm_poli) . '</span>';
     }
 
-    $stts = $last_visit['stts'] ?? '';
-    $status_bayar = $last_visit['status_bayar'] ?? '';
-    $tgl = $last_visit['tgl_registrasi'] ?? '';
-
-    // Tentukan badge berdasarkan status
-    $badge_class = 'default';
-    $status_text = $stts;
-
-    if ($stts === 'Sudah') {
-      $badge_class = 'success';
-    } elseif ($stts === 'Belum') {
-      $badge_class = 'warning';
+    // Cek apakah ada resep belum diambil ke apotek (tgl_penyerahan kosong/null)
+    $resep = $this->db()->pdo()->prepare(
+      "SELECT no_resep FROM resep_obat
+       WHERE no_rawat = ? AND (tgl_penyerahan IS NULL OR CAST(tgl_penyerahan AS CHAR(10)) = '0000-00-00')
+       LIMIT 1"
+    );
+    $resep->execute([$no_rawat]);
+    if ($resep->fetch()) {
+      $dest_badge .= ' <span class="label label-warning"><i class="fa fa-medkit"></i> Apotek</span>';
     }
 
-    // Tambahkan info status bayar jika ada
-    if ($status_bayar === 'Sudah Bayar') {
-      $badge_class = 'success';
-      $status_text = $status_bayar;
+    // --- Badge status periksa ---
+    if ($stts === 'Sudah' && $status_bayar === 'Sudah Bayar') {
+      $stts_badge = '<span class="label label-success">Lunas</span>';
+    } elseif ($stts === 'Sudah') {
+      $stts_badge = '<span class="label label-success">Selesai</span>';
     } elseif ($status_bayar === 'Belum Bayar') {
-      $badge_class = 'danger';
-      $status_text = $status_bayar;
+      $stts_badge = '<span class="label label-danger">Belum Bayar</span>';
+    } else {
+      $stts_badge = '<span class="label label-warning">Belum Diperiksa</span>';
     }
 
-    $tgl_formatted = date('d/m/Y', strtotime($tgl));
-    
-    return '<span class="label label-' . $badge_class . '">' . htmlspecialchars($status_text) . '</span><br><small>' . $tgl_formatted . '</small>';
+    $tgl_formatted = $tgl ? date('d/m/Y', strtotime($tgl)) : '-';
+
+    return $dest_badge . ' ' . $stts_badge . '<br><small class="text-muted">' . $tgl_formatted . '</small>';
   }
 
   public function navigation()

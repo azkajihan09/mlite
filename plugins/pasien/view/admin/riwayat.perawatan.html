@@ -1,118 +1,213 @@
 <style media="screen">
-  table td,
-  table th {
-    padding: 5px;
+  /* ============================================
+     Riwayat Perawatan - Modern Override v3
+     Mengubah tampilan tanpa ubah struktur HTML
+     ============================================ */
+
+  /* Reset table borders */
+  .modal-body table.tbl_form,
+  .modal-body table.icd {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    border: none !important;
+    width: 100%;
+    font-size: 13px;
+    margin-bottom: 16px;
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border: 1px solid #e2e8f0 !important;
   }
+
+  .modal-body table.tbl_form td,
+  .modal-body table.tbl_form th,
+  .modal-body table.icd td,
+  .modal-body table.icd th {
+    padding: 9px 12px !important;
+    border: none !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    vertical-align: top;
+    color: #334155;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .modal-body table.tbl_form tr:last-child td,
+  .modal-body table.icd tr:last-child td {
+    border-bottom: none !important;
+  }
+
+  .modal-body table.tbl_form tr:hover td,
+  .modal-body table.icd tr:hover td {
+    background-color: #f0fdf4 !important;
+  }
+
+  .modal-body table.tbl_form td[bgcolor="#eee"],
+  .modal-body table.tbl_form th[bgcolor="#eee"],
+  .modal-body table.icd td[bgcolor="#eee"] {
+    background: #f1f5f9 !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .modal-body table.tbl_form td[bgcolor="#f0f8ff"] {
+    background: #eff6ff !important;
+    color: #1e40af !important;
+    font-weight: 700 !important;
+  }
+
+  .modal-body table.tbl_form td[bgcolor="#d9edf7"] {
+    background: #dbeafe !important;
+    color: #1e40af !important;
+    font-weight: 700 !important;
+  }
+
+  /* Label column (20% width) */
+  .modal-body table.tbl_form tr.isi td:first-child {
+    color: #64748b;
+    font-weight: 600;
+    font-size: 12px;
+    background: #f8fafc;
+    white-space: nowrap;
+  }
+
+  /* Value column */
+  .modal-body table.tbl_form tr.isi td:last-child {
+    color: #1e293b;
+    font-weight: 500;
+  }
+
+  /* Modal styling */
+  .modal-body {
+    padding: 24px !important;
+    background: #f8fafb !important;
+  }
+
+  .modal-body > h4 {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #1e293b !important;
+    margin-bottom: 16px !important;
+    padding: 14px 18px !important;
+    background: linear-gradient(135deg, #1b5e20, #388e3c) !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 15px rgba(27, 94, 32, 0.2);
+  }
+
+  .modal-body > h4.m-t-xl {
+    background: #fff !important;
+    color: #1e293b !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 0 8px 0 !important;
+    margin-top: 24px !important;
+    border-bottom: 2px solid #e8f5e9 !important;
+    border-radius: 0 !important;
+  }
+
+  /* Each visit block - add card styling */
+  .modal-body > .table-responsive,
+  .modal-body > div > .table-responsive {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+
+  /* Modal header/footer */
+  .modal-header {
+    background: #f8fafb !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    padding: 14px 20px !important;
+  }
+
+  .modal-title {
+    font-weight: 700 !important;
+    color: #1e293b !important;
+    font-size: 16px !important;
+  }
+
+  .modal-footer {
+    background: #f8fafb !important;
+    border-top: 1px solid #e2e8f0 !important;
+    padding: 12px 20px !important;
+  }
+
+  /* Nested tables (inside td) */
+  .modal-body table.tbl_form table {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 4px !important;
+    overflow: hidden;
+    margin: 4px 0;
+  }
+
+  .modal-body table.tbl_form table td {
+    font-size: 12px !important;
+    padding: 6px 10px !important;
+  }
+
+  /* Hide del tags content display */
   del {
     text-decoration: none !important;
-  }  
+  }
+
+  /* Scrollbar */
+  .modal-body::-webkit-scrollbar { width: 6px; }
+  .modal-body::-webkit-scrollbar-track { background: #f1f5f9; }
+  .modal-body::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 3px; }
+
+  @media (max-width: 768px) {
+    .modal-body { padding: 12px !important; }
+    .modal-body table.tbl_form td,
+    .modal-body table.tbl_form th { padding: 6px 8px !important; font-size: 12px !important; }
+  }
 </style>
 <del>
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span> Tutup</button>
-    <h4 class="modal-title">Riwayat Perawatan</h4>
+    <h4 class="modal-title"><i class="fa fa-file-text-o"></i> Riwayat Perawatan</h4>
   </div>
 </del>
 <div class="modal-body">
-  <h4>Data Riwayat Perawatan Pasien</h4>
-  <div class="table table-responsive">
-    <table width="100%" border="1" align="center" cellpadding="3px" cellspacing="0" class="tbl_form">
-      <tr class="isi">
-        <td valign="top" width="20%">No.RM</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%"><span id="no_rkm_medis">{?=isset_or($riwayat.pasien.no_rkm_medis)?}</span></td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Nama Pasien</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($riwayat.pasien.nm_pasien)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Alamat</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($riwayat.pasien.alamat)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Umur</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($riwayat.pasien.umur)?} Tahun ({if: $riwayat.pasien.jk == 'L'}Laki-Laki{else}Perempuan{/if})</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Tanggal Lahir</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($riwayat.pasien.tgl_lahir)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Ibu Kandung</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($riwayat.pasien.nm_ibu)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Golongan Darah</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($riwayat.pasien.gol_darah)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Status Nikah</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($riwayat.pasien.stts_nikah)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Agama</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($riwayat.pasien.agama)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Pendidikan Terakhir</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($riwayat.pasien.pnd)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Pertama Daftar</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($riwayat.pasien.tgl_daftar)?}</td>
-      </tr>
-    </table>
+  <h4><i class="fa fa-user-circle-o"></i> Data Riwayat Perawatan Pasien</h4>
+  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));gap:8px 20px;">
+      <div><span style="color:#64748b;font-size:11px;display:block;">No. RM</span><strong id="no_rkm_medis">{?=isset_or($riwayat.pasien.no_rkm_medis)?}</strong></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;">Nama Pasien</span><strong>{?=isset_or($riwayat.pasien.nm_pasien)?}</strong></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;">Alamat</span><strong>{?=isset_or($riwayat.pasien.alamat)?}</strong></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;">Umur / JK</span><strong>{?=isset_or($riwayat.pasien.umur)?} Tahun ({if: $riwayat.pasien.jk == 'L'}Laki-Laki{else}Perempuan{/if})</strong></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;">Tanggal Lahir</span><strong>{?=isset_or($riwayat.pasien.tgl_lahir)?}</strong></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;">Ibu Kandung</span><strong>{?=isset_or($riwayat.pasien.nm_ibu)?}</strong></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;">Gol. Darah</span><strong>{?=isset_or($riwayat.pasien.gol_darah)?}</strong></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;">Status Nikah</span><strong>{?=isset_or($riwayat.pasien.stts_nikah)?}</strong></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;">Agama</span><strong>{?=isset_or($riwayat.pasien.agama)?}</strong></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;">Pendidikan</span><strong>{?=isset_or($riwayat.pasien.pnd)?}</strong></div>
+      <div><span style="color:#64748b;font-size:11px;display:block;">Pertama Daftar</span><strong>{?=isset_or($riwayat.pasien.tgl_daftar)?}</strong></div>
+    </div>
+  </div>
 
-    <h4 class="m-t-xl">Data Riwayat</h4>
+    <h4 class="m-t-xl"><i class="fa fa-history"></i> Data Riwayat</h4>
 
     {loop: $riwayat.reg_periksa}
-    <table width="100%" border="1" align="center" cellpadding="3px" cellspacing="0" class="tbl_form">
-      <tr class="isi">
-        <td valign="top" width="20%">No.Rawat</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($value.no_rawat)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">No.Registrasi</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($value.no_reg)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Tanggal Registrasi</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($value.tgl_registrasi)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Unit/Poliklinik</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($value.nm_poli)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Dokter</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($value.nm_dokter)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Penjamin</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($value.png_jawab)?}</td>
-      </tr>
-      <tr class="isi">
-        <td valign="top" width="20%">Status</td>
-        <td valign="top" width="1%" align="center">:</td>
-        <td valign="top" width="79%">{?=isset_or($value.status_lanjut)?}</td>
-      </tr>
+    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:16px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+      <div style="background:#f1f5f9;padding:10px 16px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+        <span style="font-size:13px;font-weight:700;color:#1e40af;"><i class="fa fa-calendar-o"></i> {?=isset_or($value.tgl_registrasi)?} &mdash; {?=isset_or($value.nm_poli)?}</span>
+        <span style="font-size:11px;padding:3px 10px;border-radius:12px;font-weight:600;background:#dbeafe;color:#1e40af;">{?=isset_or($value.status_lanjut)?}</span>
+      </div>
+      <div style="padding:16px;">
+        <div style="display:flex;flex-wrap:wrap;gap:6px 20px;margin-bottom:12px;font-size:12px;">
+          <span><span style="color:#64748b;">No.Rawat:</span> <strong>{?=isset_or($value.no_rawat)?}</strong></span>
+          <span><span style="color:#64748b;">Dokter:</span> <strong>{?=isset_or($value.nm_dokter)?}</strong></span>
+          <span><span style="color:#64748b;">Penjamin:</span> <strong>{?=isset_or($value.png_jawab)?}</strong></span>
+          <span><span style="color:#64748b;">No.Reg:</span> <strong>{?=isset_or($value.no_reg)?}</strong></span>
+        </div>
       {if: $value.diagnosa_pasien}
       <tr class="isi">
         <td valign="top" width="20%">Diagnosa/Penyakit/ICD 10</td>
@@ -2356,14 +2451,14 @@
         </td>
       </tr>
       {/if}
-    </table>
-    <br>
+    </div><!-- /padding -->
+    </div><!-- /visit card -->
     {/loop}
   </div>
 </div>
 <del>
-  <div class="modal-footer">
-    <a class="btn btn-danger" href="{?=url([ADMIN,'pasien','cetakriwayatmpdf'])?}" target="_blank">Cetak</a>
-    <button type="button" class="btn btn-primary" data-dismiss="modal">Tutup</button>
+  <div class="modal-footer" style="background:#f8fafb;border-top:1px solid #e2e8f0;padding:12px 20px;">
+    <a class="btn btn-danger btn-sm" href="{?=url([ADMIN,'pasien','cetakriwayatmpdf'])?}" target="_blank"><i class="fa fa-print"></i> Cetak PDF</a>
+    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
   </div>
 </del>

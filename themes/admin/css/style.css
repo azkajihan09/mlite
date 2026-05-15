@@ -1101,3 +1101,378 @@ select[multiple].form-control {
   .badge-inverse:hover {
     background-color: #1a1a1a;
   }
+
+
+/* ============================================
+   mLITE Modern UI Enhancement v2.0
+   Applied globally to all admin pages
+   ============================================ */
+
+/* === Modern Panel === */
+.panel {
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-radius: 8px;
+}
+
+.panel-default > .panel-heading {
+  background: linear-gradient(to bottom, #ffffff, #f7fafc);
+  border-bottom: 1px solid #e2e8f0;
+  padding: 14px 18px;
+  border-radius: 8px 8px 0 0;
+}
+
+h3.panel-title {
+  font-weight: 600;
+  font-size: 15px;
+  color: #1a202c;
+}
+
+.panel-body {
+  padding: 18px;
+}
+
+/* === Modern Buttons === */
+.btn {
+  border-radius: 5px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea, #5a67d8);
+  border-color: #5a67d8;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background: linear-gradient(135deg, #5a67d8, #4c51bf);
+  border-color: #4c51bf;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #48bb78, #38a169);
+  border-color: #38a169;
+}
+
+.btn-success:hover,
+.btn-success:focus {
+  background: linear-gradient(135deg, #38a169, #2f855a);
+  border-color: #2f855a;
+}
+
+.btn-info {
+  background: linear-gradient(135deg, #4299e1, #3182ce);
+  border-color: #3182ce;
+}
+
+.btn-info:hover,
+.btn-info:focus {
+  background: linear-gradient(135deg, #3182ce, #2b6cb0);
+  border-color: #2b6cb0;
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, #ed8936, #dd6b20);
+  border-color: #dd6b20;
+  color: #fff;
+}
+
+.btn-warning:hover,
+.btn-warning:focus {
+  background: linear-gradient(135deg, #dd6b20, #c05621);
+  border-color: #c05621;
+  color: #fff;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #fc8181, #e53e3e);
+  border-color: #e53e3e;
+}
+
+.btn-danger:hover,
+.btn-danger:focus {
+  background: linear-gradient(135deg, #e53e3e, #c53030);
+  border-color: #c53030;
+}
+
+.btn-default {
+  background: #fff;
+  border-color: #e2e8f0;
+  color: #4a5568;
+}
+
+.btn-default:hover,
+.btn-default:focus {
+  background: #f7fafc;
+  border-color: #cbd5e0;
+  color: #2d3748;
+}
+
+/* === Modern Form Controls === */
+.form-control {
+  border-radius: 5px;
+  border: 1px solid #e2e8f0;
+  box-shadow: none;
+  padding: 8px 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  color: #2d3748;
+}
+
+.form-control:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+/* === Modern Tables === */
+.table > thead > tr > th {
+  background: linear-gradient(to bottom, #f7fafc, #edf2f7);
+  color: #4a5568;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border-bottom: 2px solid #e2e8f0;
+  padding: 10px 8px;
+}
+
+.table > tbody > tr > td {
+  padding: 10px 8px;
+  border-color: #f0f4f8;
+  color: #4a5568;
+  vertical-align: middle;
+}
+
+.table > tbody > tr:hover {
+  background-color: #f0f7ff;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #f8fafc;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd):hover {
+  background-color: #f0f7ff;
+}
+
+/* === Modern Nav Tabs === */
+.nav-tabs {
+  border-bottom: 2px solid #e2e8f0;
+  background: #f8fafc;
+  padding: 0;
+  border-radius: 6px 6px 0 0;
+}
+
+.nav-tabs > li > a {
+  color: #718096;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border: none !important;
+  border-bottom: 3px solid transparent !important;
+  padding: 11px 15px;
+  margin: 0;
+  transition: all 0.2s ease;
+  border-radius: 0;
+}
+
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus {
+  color: #4a5568;
+  background: rgba(102, 126, 234, 0.05);
+  border: none !important;
+  border-bottom: 3px solid #a0aec0 !important;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  color: #667eea;
+  font-weight: 700;
+  background: #fff;
+  border: none !important;
+  border-bottom: 3px solid #667eea !important;
+}
+
+.tab-content {
+  border: 1px solid #e2e8f0;
+  border-top: none;
+  background: #fff;
+  padding: 16px;
+  border-radius: 0 0 6px 6px;
+}
+
+/* === Modern Dropdown === */
+.dropdown-menu {
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+  padding: 6px 0;
+}
+
+.dropdown-menu > li > a {
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #4a5568;
+  transition: background 0.15s ease;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+  background: #f0f7ff;
+  color: #667eea;
+}
+
+/* === Modern Labels/Badges === */
+.label {
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+}
+
+.label-success { background: #48bb78; }
+.label-warning { background: #ed8936; }
+.label-danger { background: #e53e3e; }
+.label-info { background: #4299e1; }
+.label-primary { background: #667eea; }
+.label-default { background: #a0aec0; }
+
+/* === Modern Alerts === */
+.alert {
+  border-radius: 6px;
+  border: none;
+  padding: 12px 16px;
+}
+
+.alert-success {
+  background: #f0fff4;
+  color: #276749;
+  border-left: 4px solid #48bb78;
+}
+
+.alert-danger {
+  background: #fff5f5;
+  color: #9b2c2c;
+  border-left: 4px solid #e53e3e;
+}
+
+.alert-warning {
+  background: #fffaf0;
+  color: #975a16;
+  border-left: 4px solid #ed8936;
+}
+
+.alert-info {
+  background: #ebf8ff;
+  color: #2c5282;
+  border-left: 4px solid #4299e1;
+}
+
+/* === Modern Modal === */
+.modal-content {
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+.modal-header {
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 14px 18px;
+  border-radius: 8px 8px 0 0;
+}
+
+.modal-title {
+  font-weight: 600 !important;
+  color: #1a202c;
+  font-size: 15px;
+}
+
+.modal-footer {
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  padding: 12px 18px;
+  border-radius: 0 0 8px 8px;
+}
+
+/* === Modern Pagination === */
+.pagination > li > a,
+.pagination > li > span {
+  color: #667eea;
+  border-color: #e2e8f0;
+  border-radius: 4px;
+  margin: 0 2px;
+  padding: 6px 12px;
+}
+
+.pagination > li > a:hover {
+  background: #667eea;
+  border-color: #667eea;
+  color: #fff;
+}
+
+.pagination > .active > a,
+.pagination > .active > a:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span {
+  background: #667eea;
+  border-color: #667eea;
+}
+
+.pagination > .disabled > a,
+.pagination > .disabled > span {
+  color: #a0aec0;
+}
+
+/* === Scrollbar === */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* === Input Group === */
+.input-group .form-control {
+  border-radius: 5px 0 0 5px;
+}
+
+.input-group-btn:last-child > .btn {
+  border-radius: 0 5px 5px 0;
+}
+
+/* === DataTables Override === */
+.dataTables_wrapper .dataTables_filter input {
+  border-radius: 5px;
+  border: 1px solid #e2e8f0;
+  padding: 6px 12px;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+  outline: none;
+}
+
+/* === Row with green background (Sudah diperiksa) === */
+tr[style*="dff0d8"] {
+  border-left: 3px solid #48bb78 !important;
+}

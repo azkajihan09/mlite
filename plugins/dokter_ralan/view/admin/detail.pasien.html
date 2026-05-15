@@ -1,0 +1,484 @@
+<style>
+/* Detail Pasien Modern UI */
+.detail-pasien-wrapper {
+  margin-bottom: 100px;
+}
+
+.patient-header {
+  background: linear-gradient(135deg, #2e7d32, #43a047);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+}
+
+.patient-header h4 {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  padding-bottom: 10px;
+}
+
+.patient-header .info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px 30px;
+}
+
+.patient-header .info-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.patient-header .info-label {
+  color: rgba(255,255,255,0.7);
+  font-weight: 500;
+  white-space: nowrap;
+  min-width: 100px;
+}
+
+.patient-header .info-value {
+  color: #fff;
+  font-weight: 600;
+}
+
+.patient-header .info-value .label {
+  font-size: 10px;
+  padding: 2px 6px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+/* Tab Navigation */
+.detail-tabs {
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  flex-wrap: nowrap;
+  border-bottom: 2px solid #e0e0e0;
+  background: #fafafa;
+  padding: 0;
+  margin: 0 0 0 0;
+  border-radius: 6px 6px 0 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.detail-tabs::-webkit-scrollbar {
+  height: 3px;
+}
+
+.detail-tabs::-webkit-scrollbar-thumb {
+  background: #bdbdbd;
+  border-radius: 3px;
+}
+
+.detail-tabs > li {
+  float: none;
+  flex-shrink: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.detail-tabs > li > a {
+  display: block;
+  color: #757575;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  padding: 12px 14px;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.detail-tabs > li > a:hover {
+  color: #424242;
+  background: rgba(46, 125, 50, 0.05);
+  border-bottom: 3px solid #a5d6a7;
+}
+
+.detail-tabs > li.active > a {
+  color: #2e7d32;
+  font-weight: 700;
+  background: #fff;
+  border-bottom: 3px solid #2e7d32;
+}
+
+/* Special tab colors */
+.detail-tabs > li.tab-lab > a {
+  color: #1565c0;
+}
+.detail-tabs > li.tab-lab.active > a {
+  color: #1565c0;
+  border-bottom-color: #1565c0;
+}
+
+.detail-tabs > li.tab-rad > a {
+  color: #e65100;
+}
+.detail-tabs > li.tab-rad.active > a {
+  color: #e65100;
+  border-bottom-color: #e65100;
+}
+
+/* Tab Content */
+.detail-tab-content {
+  border: 1px solid #e0e0e0;
+  border-top: none;
+  background: #fff;
+  padding: 20px;
+  border-radius: 0 0 6px 6px;
+  min-height: 300px;
+}
+
+/* Sub-buttons */
+.detail-sub-actions {
+  margin-bottom: 16px;
+}
+
+.detail-sub-actions .btn {
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 6px 12px;
+  margin-right: 6px;
+}
+
+/* Form styling inside tabs */
+.detail-tab-content .form-group label {
+  font-weight: 600;
+  color: #424242;
+  font-size: 13px;
+}
+
+.detail-tab-content .form-control {
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.detail-tab-content .form-control:focus {
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12);
+}
+
+/* Checkbox list for lab/rad */
+.pemeriksaan-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 12px;
+  background: #fafafa;
+}
+
+.pemeriksaan-list .checkbox {
+  margin: 6px 0;
+  padding: 6px 8px;
+  border-radius: 3px;
+  transition: background 0.15s;
+}
+
+.pemeriksaan-list .checkbox:hover {
+  background: #e8f5e9;
+}
+
+.pemeriksaan-list .checkbox label {
+  font-weight: 400;
+  color: #424242;
+  font-size: 13px;
+}
+
+/* Counter badge */
+.items-selected {
+  font-size: 12px;
+  color: #757575;
+  margin-top: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .patient-header .info-grid {
+    grid-template-columns: 1fr;
+  }
+  .patient-header {
+    padding: 16px;
+  }
+  .detail-tabs > li > a {
+    padding: 10px 10px;
+    font-size: 10px;
+  }
+  .detail-tab-content {
+    padding: 12px;
+  }
+}
+</style>
+
+<div class="detail-pasien-wrapper">
+  <!-- Patient Header -->
+  <div class="patient-header">
+    <h4><i class="fa fa-user-circle-o"></i> Detail Pasien</h4>
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="info-label">Nama Lengkap</span>
+        <span class="info-value" id="dp_nama">{?=isset_or($detail_pasien.nm_pasien, '-')?}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">No. RM</span>
+        <span class="info-value" id="dp_no_rm">{?=isset_or($detail_pasien.no_rkm_medis, '-')?}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">No. Rawat</span>
+        <span class="info-value" id="dp_no_rawat">{?=isset_or($detail_pasien.no_rawat, '-')?}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Tgl. Lahir</span>
+        <span class="info-value" id="dp_tgl_lahir">{?=isset_or($detail_pasien.tgl_lahir, '-')?}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Umur</span>
+        <span class="info-value" id="dp_umur">{?=isset_or($detail_pasien.umur, '-')?}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Cara Bayar</span>
+        <span class="info-value" id="dp_cara_bayar">{?=isset_or($detail_pasien.png_jawab, '-')?}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Nomor Telepon</span>
+        <span class="info-value" id="dp_telepon">{?=isset_or($detail_pasien.no_tlp, '-')?} {if: $detail_pasien.no_tlp}<span class="label label-danger" style="cursor:pointer;" onclick="window.open('https://wa.me/'+'{?=isset_or($detail_pasien.no_tlp)?}'.replace(/^0/,'62'))"><i class="fa fa-whatsapp"></i></span>{/if}</span>
+      </div>
+      <div class="info-item">
+        <span class="info-label">No. Reg SITB</span>
+        <span class="info-value" id="dp_sitb">{?=isset_or($detail_pasien.no_reg_sitb, '-')?} {if: $detail_pasien.no_reg_sitb}<span class="label label-danger"><i class="fa fa-external-link"></i></span>{/if}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Navigation -->
+  <ul class="detail-tabs nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#tab-riwayat" data-toggle="tab">Riwayat</a></li>
+    <li role="presentation"><a href="#tab-pemeriksaan" data-toggle="tab">Pemeriksaan</a></li>
+    <li role="presentation"><a href="#tab-resep" data-toggle="tab">Resep</a></li>
+    <li role="presentation"><a href="#tab-resume" data-toggle="tab">Resume Medis</a></li>
+    <li role="presentation"><a href="#tab-informed" data-toggle="tab">Informed Consent</a></li>
+    <li role="presentation"><a href="#tab-rujuk" data-toggle="tab">Rujuk Internal</a></li>
+    <li role="presentation"><a href="#tab-awalmedis" data-toggle="tab">Awal Medis Umum</a></li>
+    <li role="presentation"><a href="#tab-obstetri" data-toggle="tab">Obstetri</a></li>
+    <li role="presentation"><a href="#tab-ginekologi" data-toggle="tab">Ginekologi</a></li>
+    <li role="presentation"><a href="#tab-gigi" data-toggle="tab">Gigi</a></li>
+    <li role="presentation" class="tab-lab"><a href="#tab-lab" data-toggle="tab">Permintaan Lab</a></li>
+    <li role="presentation" class="tab-rad"><a href="#tab-rad" data-toggle="tab">Permintaan Rad</a></li>
+    <li role="presentation"><a href="#tab-catatan" data-toggle="tab">Catatan</a></li>
+    <li role="presentation"><a href="#tab-kontrol" data-toggle="tab">Surat Kontrol</a></li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content detail-tab-content">
+
+    <!-- Tab Riwayat -->
+    <div role="tabpanel" class="tab-pane active" id="tab-riwayat">
+      <div class="detail-sub-actions">
+        <a href="#" class="btn btn-success btn-sm" id="btn-berkas-lama"><i class="fa fa-folder-open"></i> Berkas RM Lama</a>
+        <a href="#" class="btn btn-info btn-sm" id="btn-riwayat-seluruh"><i class="fa fa-history"></i> Riwayat Seluruh Pelayanan</a>
+      </div>
+      <div id="riwayat-content">
+        <!-- Content loaded via AJAX -->
+        <div class="text-center text-muted" style="padding:40px;">
+          <i class="fa fa-spinner fa-spin fa-2x"></i><br><br>
+          Memuat riwayat pasien...
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Pemeriksaan -->
+    <div role="tabpanel" class="tab-pane" id="tab-pemeriksaan">
+      <div id="pemeriksaan-content">
+        <div class="text-center text-muted" style="padding:40px;">
+          <i class="fa fa-spinner fa-spin fa-2x"></i><br><br>
+          Memuat form pemeriksaan...
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Resep -->
+    <div role="tabpanel" class="tab-pane" id="tab-resep">
+      <div id="resep-content">
+        <div class="text-center text-muted" style="padding:40px;">
+          <i class="fa fa-spinner fa-spin fa-2x"></i><br><br>
+          Memuat data resep...
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Resume Medis -->
+    <div role="tabpanel" class="tab-pane" id="tab-resume">
+      <div id="resume-content">
+        <div class="text-center text-muted" style="padding:40px;">
+          <i class="fa fa-spinner fa-spin fa-2x"></i><br><br>
+          Memuat resume medis...
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Informed Consent -->
+    <div role="tabpanel" class="tab-pane" id="tab-informed">
+      <div id="informed-content">
+        <p class="text-muted">Informed Consent akan dimuat di sini.</p>
+      </div>
+    </div>
+
+    <!-- Tab Rujuk Internal -->
+    <div role="tabpanel" class="tab-pane" id="tab-rujuk">
+      <div id="rujuk-content">
+        <p class="text-muted">Rujuk Internal akan dimuat di sini.</p>
+      </div>
+    </div>
+
+    <!-- Tab Awal Medis Umum -->
+    <div role="tabpanel" class="tab-pane" id="tab-awalmedis">
+      <div id="awalmedis-content">
+        <p class="text-muted">Awal Medis Umum akan dimuat di sini.</p>
+      </div>
+    </div>
+
+    <!-- Tab Obstetri -->
+    <div role="tabpanel" class="tab-pane" id="tab-obstetri">
+      <div id="obstetri-content">
+        <p class="text-muted">Obstetri akan dimuat di sini.</p>
+      </div>
+    </div>
+
+    <!-- Tab Ginekologi -->
+    <div role="tabpanel" class="tab-pane" id="tab-ginekologi">
+      <div id="ginekologi-content">
+        <p class="text-muted">Ginekologi akan dimuat di sini.</p>
+      </div>
+    </div>
+
+    <!-- Tab Gigi -->
+    <div role="tabpanel" class="tab-pane" id="tab-gigi">
+      <div id="gigi-content">
+        <p class="text-muted">Gigi akan dimuat di sini.</p>
+      </div>
+    </div>
+
+    <!-- Tab Permintaan Lab -->
+    <div role="tabpanel" class="tab-pane" id="tab-lab">
+      <div id="lab-content">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Tanggal dan Waktu</label>
+              <input type="text" class="form-control" id="lab_tanggal" value="" readonly>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <label>Klinis</label>
+              <input type="text" class="form-control" id="lab_klinis" placeholder="Keterangan klinis...">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Jenis Pemeriksaan</label>
+          <div style="margin-bottom:8px;">
+            <input type="text" class="form-control" id="lab_search" placeholder="&#128269; Cari jenis pemeriksaan...">
+          </div>
+          <div class="pemeriksaan-list" id="lab-list">
+            <!-- Lab items loaded via AJAX -->
+          </div>
+          <div class="items-selected"><span id="lab-count">0</span> item dipilih</div>
+        </div>
+        <button type="button" class="btn btn-primary" id="simpan-lab"><i class="fa fa-save"></i> SIMPAN</button>
+      </div>
+    </div>
+
+    <!-- Tab Permintaan Rad -->
+    <div role="tabpanel" class="tab-pane" id="tab-rad">
+      <div id="rad-content">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Tanggal dan Waktu</label>
+              <input type="text" class="form-control" id="rad_tanggal" value="" readonly>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <label>Klinis</label>
+              <input type="text" class="form-control" id="rad_klinis" placeholder="Keterangan klinis...">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Jenis Pemeriksaan</label>
+          <div style="margin-bottom:8px;">
+            <input type="text" class="form-control" id="rad_search" placeholder="&#128269; Cari jenis pemeriksaan...">
+          </div>
+          <div class="pemeriksaan-list" id="rad-list">
+            <!-- Rad items loaded via AJAX -->
+          </div>
+          <div class="items-selected"><span id="rad-count">0</span> item dipilih</div>
+        </div>
+        <button type="button" class="btn btn-primary" id="simpan-rad"><i class="fa fa-save"></i> SIMPAN</button>
+      </div>
+    </div>
+
+    <!-- Tab Catatan -->
+    <div role="tabpanel" class="tab-pane" id="tab-catatan">
+      <div id="catatan-content">
+        <p class="text-muted">Catatan akan dimuat di sini.</p>
+      </div>
+    </div>
+
+    <!-- Tab Surat Kontrol -->
+    <div role="tabpanel" class="tab-pane" id="tab-kontrol">
+      <div id="kontrol-content">
+        <p class="text-muted">Surat Kontrol akan dimuat di sini.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+  // Set current datetime for lab/rad
+  var now = new Date();
+  var formatted = now.toLocaleDateString('id-ID') + ' ' + now.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + ' ' + (now.getHours() >= 12 ? 'PM' : 'AM');
+  $('#lab_tanggal, #rad_tanggal').val(formatted);
+
+  // Search filter for lab items
+  $('#lab_search').on('keyup', function() {
+    var val = $(this).val().toLowerCase();
+    $('#lab-list .checkbox').each(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1);
+    });
+  });
+
+  // Search filter for rad items
+  $('#rad_search').on('keyup', function() {
+    var val = $(this).val().toLowerCase();
+    $('#rad-list .checkbox').each(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(val) > -1);
+    });
+  });
+
+  // Count selected items
+  $(document).on('change', '#lab-list input[type=checkbox]', function() {
+    $('#lab-count').text($('#lab-list input[type=checkbox]:checked').length);
+  });
+  $(document).on('change', '#rad-list input[type=checkbox]', function() {
+    $('#rad-count').text($('#rad-list input[type=checkbox]:checked').length);
+  });
+});
+</script>

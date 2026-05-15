@@ -81,6 +81,107 @@
     border-radius: 3px;
   }
 </style>
+<style>
+  .nav-tabs {
+    border-bottom: 1px solid #dcdcdc;
+    background: #fafafa;
+    padding: 0 8px;
+    margin: 0;
+  }
+
+  .nav-tabs > li {
+    margin-bottom: 0;
+    margin-right: 2px;
+  }
+
+  .nav-tabs > li > a {
+    color: #7a7a7a;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    padding: 10px 14px;
+    transition: all 0.2s ease;
+  }
+
+  .nav-tabs > li > a:hover,
+  .nav-tabs > li > a:focus {
+    color: #444;
+    background: transparent;
+    border: 0;
+    border-bottom: 3px solid #b8b8b8;
+  }
+
+  .nav-tabs > li.active > a,
+  .nav-tabs > li.active > a:hover,
+  .nav-tabs > li.active > a:focus {
+    color: #222;
+    font-weight: 700;
+    background: transparent;
+    border: 0;
+    border-bottom: 3px solid #555;
+  }
+
+  .nav-tabs > li.tab-lab.active > a,
+  .nav-tabs > li.tab-lab.active > a:hover,
+  .nav-tabs > li.tab-lab.active > a:focus,
+  .nav-tabs > li.tab-rad.active > a,
+  .nav-tabs > li.tab-rad.active > a:hover,
+  .nav-tabs > li.tab-rad.active > a:focus {
+    color: #c41c3b;
+    font-weight: 700;
+    border-bottom-color: #c41c3b;
+  }
+
+  .tab-content {
+    border: 1px solid #e7e7e7;
+    border-top: 0;
+    background: #fff;
+    padding: 16px;
+  }
+
+  .tab-content h4 {
+    font-size: 15px;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .tab-content h5 {
+    color: #555;
+    font-weight: 600;
+    font-size: 13px;
+    margin-top: 14px;
+    margin-bottom: 10px;
+  }
+
+  .tab-content .table {
+    background: #fff;
+    font-size: 12px;
+  }
+
+  .tab-content .table thead th {
+    background: #f5f5f5;
+    color: #666;
+    border-color: #ddd;
+    padding: 8px;
+    font-weight: 600;
+  }
+
+  .tab-content .table tbody td {
+    padding: 8px;
+    border-color: #f0f0f0;
+  }
+
+  .tab-content .btn-xs {
+    border-radius: 2px;
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+</style>
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#resep" aria-controls="resep" role="tab" data-toggle="tab">Resep Dokter</a></li>
     <li role="presentation"><a href="#data_resep" aria-controls="resep" role="tab" data-toggle="tab">Data Resep</a></li>

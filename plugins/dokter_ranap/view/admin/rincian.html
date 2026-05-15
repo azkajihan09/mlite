@@ -1,9 +1,92 @@
+<style>
+  .nav-tabs {
+    border-bottom: 1px solid #dcdcdc;
+    background: #fafafa;
+    padding: 0 8px;
+  }
+
+  .nav-tabs > li {
+    margin-bottom: 0;
+  }
+
+  .nav-tabs > li > a {
+    color: #7a7a7a;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    padding: 10px 12px;
+  }
+
+  .nav-tabs > li > a:hover,
+  .nav-tabs > li > a:focus {
+    color: #444;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid #c7c7c7;
+  }
+
+  .nav-tabs > li.active > a,
+  .nav-tabs > li.active > a:hover,
+  .nav-tabs > li.active > a:focus {
+    color: #333;
+    font-weight: 700;
+    background: transparent;
+    border: 0;
+    border-bottom: 2px solid #8f8f8f;
+  }
+
+  .nav-tabs > li.tab-lab.active > a,
+  .nav-tabs > li.tab-lab.active > a:hover,
+  .nav-tabs > li.tab-lab.active > a:focus,
+  .nav-tabs > li.tab-rad.active > a,
+  .nav-tabs > li.tab-rad.active > a:hover,
+  .nav-tabs > li.tab-rad.active > a:focus {
+    color: #2f2f2f;
+    border-bottom-color: #555;
+  }
+
+  .tab-content {
+    border: 1px solid #e7e7e7;
+    border-top: 0;
+    background: #fff;
+    padding: 14px;
+  }
+
+  .tab-content h4 {
+    font-size: 16px;
+    color: #444;
+    margin-top: 4px;
+    margin-bottom: 14px;
+  }
+
+  .tab-content h5 {
+    color: #666;
+    font-weight: 600;
+    margin-top: 12px;
+  }
+
+  .tab-content .table {
+    background: #fff;
+  }
+
+  .tab-content .table thead th {
+    background: #f7f7f7;
+    color: #555;
+  }
+
+  .tab-content .btn-xs {
+    border-radius: 3px;
+  }
+</style>
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#tindakan" aria-controls="home" role="tab" data-toggle="tab">Tindakan</a></li>
     <li role="presentation"><a href="#resep" aria-controls="resep" role="tab" data-toggle="tab">Resep Dokter</a></li>
     <li role="presentation"><a href="#data_resep" aria-controls="resep" role="tab" data-toggle="tab">Data Resep</a></li>
-    <li role="presentation"><a href="#lab" aria-controls="lab" role="tab" data-toggle="tab">Laboratorium</a></li>
-    <li role="presentation"><a href="#rad" aria-controls="rad" role="tab" data-toggle="tab">Radiologi</a></li>
+    <li role="presentation" class="tab-lab"><a href="#lab" aria-controls="lab" role="tab" data-toggle="tab">Permintaan Lab</a></li>
+    <li role="presentation" class="tab-rad"><a href="#rad" aria-controls="rad" role="tab" data-toggle="tab">Permintaan Rad</a></li>
 </ul>
 
 <div class="tab-content">

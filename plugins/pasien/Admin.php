@@ -1553,8 +1553,11 @@ class Admin extends AdminModule
     // $mpdf->SetHTMLHeader($this->core->setPrintHeader());
     // $mpdf->SetHTMLFooter($this->core->setPrintFooter());
 
-    $url = url(ADMIN . '/tmp/riwayat.perawatan.html');
-    $html = file_get_contents($url);
+    $tmpFile = WEBAPPS_PATH . '/../admin/tmp/riwayat.perawatan.html';
+    $html = file_exists($tmpFile) ? file_get_contents($tmpFile) : '';
+    if ($html === '') {
+      $html = '<p>Data riwayat perawatan belum tersedia.</p>';
+    }
     $mpdf->WriteHTML($this->core->setPrintCss(), \Mpdf\HTMLParserMode::HEADER_CSS);
     $mpdf->WriteHTML($css);
     $mpdf->WriteHTML($html);
@@ -1567,7 +1570,11 @@ class Admin extends AdminModule
   public function getExcel()
   {
     $file = "data.pasien.xls";
-    $html = file_get_contents(url(ADMIN . '/tmp/cetak.pasien.html'));
+    $tmpFile = WEBAPPS_PATH . '/../admin/tmp/cetak.pasien.html';
+    $html = file_exists($tmpFile) ? file_get_contents($tmpFile) : '';
+    if ($html === '') {
+      $html = '<p>Data pasien belum tersedia untuk diekspor.</p>';
+    }
     header("Content-type: application/vnd-ms-excel");
     header("Content-Disposition: attachment; filename=$file");
     echo "<!DOCTYPE html><html><head></head><body>";
